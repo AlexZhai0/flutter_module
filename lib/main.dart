@@ -1,41 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/RouterTest.dart';
 
+// 应用入口
 void main() => runApp(MyApp());
 
+// 应用本身等大多数东西都是一个widget（称“组件”或“部件”）
+// widget 包括对齐(alignment)、填充(padding)和布局(layout)等。
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // Flutter在构建页面（组合、拼装其它基础widget）时，会调用组件的build方法
   @override
   Widget build(BuildContext context) {
+    // MaterialApp 是Material库中提供的Flutter APP框架，
+    // 通过它可以设置应用的名称、主题、语言、首页及路由列表等。
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in a Flutter IDE). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
+      // home 是应用首页路由
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
+// Stateful widget可以拥有状态，这些状态在widget生命周期中是可以变的，
+// 而Stateless widget是不可变的。
 class MyHomePage extends StatefulWidget {
+  // Stateful widget至少由两个类组成：一个StatefulWidget类；一个 State类。
+  // State类中持有的状态在widget生命周期中可能会发生变化。
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -47,47 +40,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      // 先自增_counter，然后调用setState()通知更新框架，
+      // 调用build()根据新状态重新构建页面
       _counter++;
     });
   }
 
+  // 调用Widget的build方法来构建widget树，最终渲染到设备屏幕上。
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // 提供页面脚手架，它提供了默认的导航栏、标题和包含主屏幕widget树的body属性。
+    // 路由默认都是通过Scaffold创建。
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -95,8 +64,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headline4,
             ),
+            FlatButton(
+              child: Text("跳转到其他页面"),
+              textColor: Colors.blue,
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return RouterTest();
+                }));
+              },
+            )
           ],
         ),
       ),
@@ -104,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
