@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/OrderDetailTest.dart';
 import 'package:flutter_module/RouterTest.dart';
 
 // 应用入口
@@ -18,7 +19,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home 是应用首页路由
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        // "new_route": (context) => RouterTest(),
+        "new_route": (context) {
+          var dd = ORDER_DETAIL_DD;
+          var dd2 = OrderDetailTest.ORDER_DETAIL_DD;
+          return RouterTest(text: ModalRoute.of(context).settings.arguments);
+          },
+        // 将其名字作为MaterialApp的initialRoute属性值即可，
+        // 该属性决定应用的初始路由页是哪一个命名路由。
+        "/": (context) => MyHomePage(title: "Flutter Demo Home Page111")
+      },
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -73,9 +85,21 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("跳转到其他页面"),
               textColor: Colors.blue,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return RouterTest();
+                debugDumpApp();
+                Navigator.of(context).pushNamed("new_route", arguments: "8885588");
+                // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //   return RouterTest(text: "222");
+                // }));
+              },
+            ),
+            FlatButton(
+              child: Text("跳转到其他页面，接收参数"),
+              textColor: Colors.blue,
+              onPressed: () async {
+                var result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return RouterTest(text: "参数。。");
                 }));
+                print("路由返回值11: $result");
               },
             )
           ],
