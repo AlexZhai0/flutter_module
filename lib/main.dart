@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_module/OrderDetailTest.dart';
 import 'package:flutter_module/RouterTest.dart';
 
 // 应用入口
@@ -20,10 +19,8 @@ class MyApp extends StatelessWidget {
       ),
       // home 是应用首页路由
       routes: {
-        // "new_route": (context) => RouterTest(),
+        "new_test": (context) => OrderDetailTest(),
         "new_route": (context) {
-          var dd = ORDER_DETAIL_DD;
-          var dd2 = OrderDetailTest.ORDER_DETAIL_DD;
           return RouterTest(text: ModalRoute.of(context).settings.arguments);
           },
         // 将其名字作为MaterialApp的initialRoute属性值即可，
@@ -85,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("跳转到其他页面"),
               textColor: Colors.blue,
               onPressed: () {
-                debugDumpApp();
+                // debugDumpApp();
                 Navigator.of(context).pushNamed("new_route", arguments: "8885588");
                 // Navigator.push(context, MaterialPageRoute(builder: (context) {
                 //   return RouterTest(text: "222");
@@ -101,6 +98,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 }));
                 print("路由返回值11: $result");
               },
+            ),
+            FlatButton(
+              child: Text("跳转到其他页面3"),
+              textColor: Colors.blue,
+              onPressed: () {
+                Navigator.of(context).pushNamed("new_test", arguments: "1");
+              },
             )
           ],
         ),
@@ -110,6 +114,28 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class OrderDetailTest extends StatelessWidget {
+  final String text;
+  OrderDetailTest({Key key, this.text}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    var args = ModalRoute.of(context).settings.arguments;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("路由标题"),
+      ),
+      body: Center(
+          child: Column(children: <Widget>[
+            Text(args),
+            RaisedButton(
+              onPressed: () => Navigator.pop(context, "返回值"),
+              child: Text("返回键"),
+            )
+          ])),
     );
   }
 }
