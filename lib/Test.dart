@@ -27,6 +27,10 @@ void main() {
   int bl3 = 0;
   // bl3 = 2.3; // 错误
 
+  var bl4 = 2;
+  // assert(bl4 > 1); // 正常执行
+  // MyAssert("2"); // 报错，有错误提示
+
   const awe222 = 2323 * 23;
   const bianli = const [4, 2, 2];
   // bianli[1] = 1; // 错误：Cannot modify an unmodifiable list
@@ -70,6 +74,11 @@ void main() {
     return "55";
   });
 
+}
+
+class MyAssert {
+  var a;
+  MyAssert(this.a): assert(a == "1");
 }
 
 class MyCons {
