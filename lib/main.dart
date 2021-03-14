@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_module/RouterTest.dart';
 
 // 应用入口
@@ -45,6 +46,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  static const CHANNEL_NAME = "com.alex.practice/flutter";
+  static const paltform = const MethodChannel(CHANNEL_NAME);
+
   int _counter = 0;
 
   void _incrementCounter() {
@@ -105,6 +110,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.of(context).pushNamed("new_test", arguments: "1");
               },
+            ),
+            FlatButton(
+              child: Text("获取平台传递的信息"),
+              textColor: Colors.blue,
+              onPressed: _getPlatformInfo,
             )
           ],
         ),
@@ -116,6 +126,19 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  Future<void> _getPlatformInfo() async{
+    String androidInfo;
+    try {
+      // 第二个参数是回传给 Android 端数据
+      androidInfo = await paltform.invokeMethod("getAndroidPlatform", "Flutter Page");
+      print("alexxx 从平台获取的值：" + androidInfo);
+    } catch(e){
+      androidInfo = "nothing";
+      print("alexxx 未从平台获取到值: ${e.message}");
+    }
+  }
+
 }
 
 class OrderDetailTest extends StatelessWidget {

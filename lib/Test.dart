@@ -74,6 +74,46 @@ void main() {
     return "55";
   });
 
+  Map<String, MyTypedef> specialMap = {
+    "my key" : (ty, ty2) { return (ty + ty2); },
+  };
+  specialMap?.forEach((key, value) {
+    // print("$TAG: $key, ${value(1, 3)} ---");
+  });
+
+  var myTypedef = (ty, ty2) { return (ty + ty2); };
+  // print("$TAG: ${myTypedef(1, 30)}");
+
+  MyTypedefClass mm = MyTypedefClass((ty, ty2) { return (ty + ty2); });
+  MyTypedefClass mm2 = MyTypedefClass((ty, ty2) { return (ty + ty2); });
+  // print("$TAG: ${mm.mapValue(100, 2)}");
+
+  String ccc;
+  String ccc2;
+  var sss = ccc ?? "333";
+  var sss2 = ccc2 ??= "3335";
+  // print("$TAG: 长度：${ccc?.length},  $sss, $sss2");
+
+  var e = MyExternalChild();
+  // print("$TAG: ${e.myExternal()}");
+
+}
+
+class MyExternal {
+  external String myExternal();
+}
+class MyExternalChild extends MyExternal {
+  @override
+  String myExternal() {
+    return "my external";
+  }
+}
+
+typedef MyTypedef = int Function(int ty, int ty2);
+
+class MyTypedefClass {
+  MyTypedef mapValue;
+  MyTypedefClass(this.mapValue);
 }
 
 class MyAssert {
