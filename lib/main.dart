@@ -48,7 +48,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   static const CHANNEL_NAME = "com.alex.practice/flutter";
-  static const paltform = const MethodChannel(CHANNEL_NAME);
+  static const platformMethodChannel = const MethodChannel(CHANNEL_NAME);
+  static const platformMsgChannel = BasicMessageChannel<String>(CHANNEL_NAME, StringCodec());
 
   int _counter = 0;
 
@@ -115,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("获取平台传递的信息"),
               textColor: Colors.blue,
               onPressed: _getPlatformInfo,
+              // onPressed: _getAndroidInfo,
             )
           ],
         ),
@@ -127,18 +129,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // 通过 MethodChannel 的 invokeMethod() 来与原生交互信息
   Future<void> _getPlatformInfo() async{
     String androidInfo;
     try {
       // 第二个参数是回传给 Android 端数据
-      androidInfo = await paltform.invokeMethod("getAndroidPlatform", "Flutter Page");
+      androidInfo = await platformMethodChannel.invokeMethod("my_android_flutter_msg", "Flutter Page");
       print("alexxx 从平台获取的值：" + androidInfo);
     } catch(e){
       androidInfo = "nothing";
       print("alexxx 未从平台获取到值: ${e.message}");
     }
   }
-
+  // 通过 BasicMessageChannel 的 send() 来与原生交互信息
+  _getAndroidInfo() async {
+    String reply = await platformMsgChannel.send("flutter msg---");
+    print("alexxx 来自 Android 平台信息：" + reply);
+  }
 }
 
 class OrderDetailTest extends StatelessWidget {
