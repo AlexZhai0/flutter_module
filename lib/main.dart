@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_module/RouterTest.dart';
+import 'package:flutter_boost/flutter_boost_app.dart';
 
 // 应用入口
 void main() => runApp(MyApp());
